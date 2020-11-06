@@ -24,7 +24,10 @@ app.get('/profile/:id' ,function (req, res) {
 	//res.send("This is Profile page"+req.params.id);
 	data = {
 		name: "Anik",
-		age:"22"
+		age:"22",
+		hobbies: [
+			'eating','learning','fishing'
+		]
 	}
 	res.render('home',{person: req.params.id,data:data});
 });
