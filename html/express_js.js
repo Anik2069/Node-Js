@@ -14,3 +14,10 @@ app.get('/' ,function (req, res) {
 	// body...
 	res.send("This is yhe home page");
 });
+
+//Request params 
+
+app.get('/profile/:id' ,function (req, res) {
+	// body...
+	res.send("This is Profile page"+req.params.id);
+});
