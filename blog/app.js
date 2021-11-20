@@ -1,8 +1,11 @@
 const express = require('express');
 const morgan = require('morgan');
+const mongoose = require('mongoose');
 
 const app = express();
 
+const dbURL = "mongodb+srv://blog-test:16Anik80@#diu@cluster0.kfl3f.mongodb.net/node-test?retryWrites=true&w=majority";
+mongoose.connect();
 //Register View Engine 
 
 app.set('view engine', 'ejs');
