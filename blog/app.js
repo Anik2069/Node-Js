@@ -1,29 +1,50 @@
 const express = require('express');
+const morgan = require('morgan');
 
 const app = express();
 
 //Register View Engine 
 
- app.set('view engine', 'ejs');
+app.set('view engine', 'ejs');
 
 //Listed
 
 app.listen(3000);
+
+//static file
+
+
+
+app.use(express.static('public'));
+
+//Middleware
+
+// app.use((req, res, next) => {
+//     console.log('Hostname: ', req.hostname);
+//     next();
+// });
+
+//app.use(morgan('tiny'));
+
 //Routing
 app.get('/', (req, res) => {
     //res.send('<p>Home Page</p>');
     //res.sendFile('./views/index.html', { root: __dirname });
-    res.render('home');
+    const blogs = [
+        { title: 'Team Bangladesh lost againts Pakistan', body: '1st t20 lost against pakistan' },
+        { title: 'Team Pakistant lost againts Bangladesh', body: '2md t20 lost against pakistan' },
+    ];
+    res.render('home', { title: 'Home', blogs });
 });
 app.get('/about', (req, res) => {
     //res.send('<p>Home Page</p>');
-   // res.sendFile('./views/about.html', { root: __dirname });
-   res.render('about-us');
+    // res.sendFile('./views/about.html', { root: __dirname });
+    res.render('about-us');
 });
 app.get('/blog/create', (req, res) => {
     //res.send('<p>Home Page</p>');
-   // res.sendFile('./views/about.html', { root: __dirname });
-   res.render('create');
+    // res.sendFile('./views/about.html', { root: __dirname });
+    res.render('create');
 });
 
 
@@ -34,6 +55,6 @@ app.get('/about-me', (req, res) => {
 });
 
 //404 Page
-app.use((req,res)=>{
+app.use((req, res) => {
     res.status(404).render('404');
 });
