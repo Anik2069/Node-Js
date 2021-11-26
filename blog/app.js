@@ -5,7 +5,7 @@ const { result } = require('lodash');
 
 const app = express();
 
-const dbURL = "mongodb+srv://blog-test:16Anik80%40%21diu@cluster0.kfl3f.mongodb.net/node-test?retryWrites=true&w=majority";
+const dbURL = "mongodb+srv://blog-test:16Anik80*****@cluster0.kfl3f.mongodb.net/node-test?retryWrites=true&w=majority";
 mongoose.connect(dbURL, { useNewUrlParser:true,useUnifiedTopology:true})
 .then((result) =>conlog.log("conncection done"))
 .catch((err)=>console.log(err));
