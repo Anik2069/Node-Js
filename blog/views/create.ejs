@@ -4,11 +4,11 @@
         <h1>Create A Blog Post</h1>
         <p></p>
         <%- include('./partials/nav.ejs') %>
-        <form action="">
+        <form action="/blog" method="post"> 
             <label for="">Name: </label> <br>
-            <input type="text"> <br>
+            <input type="text" name="title"> <br>
             <label for="">Des: </label>  <br>
-            <textarea name="" id="" cols="30" rows="10"></textarea>
+            <textarea name="description" id="" cols="30" rows="10"></textarea>
             <br>
             <br>
             <button>Submit</button>

@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const Blog = require('./models/blog');
 const { result } = require('lodash');
+const { render } = require('ejs');
 
 const app = express();
 
@@ -25,6 +26,8 @@ app.set('view engine', 'ejs');
 
 
 app.use(express.static('public'));
+
+app.use(express.urlencoded({ extended: true }));
 
 //Middleware
 
@@ -93,12 +96,40 @@ app.get('/blog/create', (req, res) => {
 
 app.get('/blog', (req, res) => {
     const blogs = [];
-    Blog.find().sort({createdAt:-1}).then((result) => {
+    Blog.find().sort({ createdAt: -1 }).then((result) => {
         res.render('home', { title: 'Home', blogs: result });
     }).catch((err) => {
         console.log(err);
     });
-   
+
+});
+
+app.post('/blog', (req, res) => {
+    // console.log(req.body);
+
+    const blog = new Blog(req.body);
+
+    blog.save().then((result) => {
+        res.redirect('/blog');
+    }).catch((err) => {
+        console.log(err);
+    });
+});
+app.get('/blogs/:id', (req, res) => {
+    const id = req.params.id;
+    Blog.findById(id).then((result) => {
+        res.render('details', { blog: result, title: 'Blog Details' });
+    }).catch((err) => {
+        console.log(err);
+    });
+});
+app.delete('/blogs/:id', (req, res) => {
+    const id = req.params.id;
+    Blog.findByIdAndDelete(id).then((result) => {
+       res.json({redirect : '/blog'});
+    }).catch((err) => {
+        console.log(err);
+    });
 });
 
 //Redirecct
