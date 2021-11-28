@@ -6,10 +6,12 @@ const { result } = require('lodash');
 
 const app = express();
 
+
 const dbURL = "mongodb+srv://Test123:test123@cluster0.kfl3f.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true })
     .then((result) => app.listen(3000))
     .catch((err) => console.log(err));
+
 //Register View Engine 
 
 app.set('view engine', 'ejs');
