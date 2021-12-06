@@ -1,9 +1,11 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const Blog = require('./models/blog');
 const { result } = require('lodash');
 const { render } = require('ejs');
+
+const blogRoute =  require('./routes/blogRoutes')
+
 
 const app = express();
 
@@ -18,7 +20,6 @@ mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true })
 app.set('view engine', 'ejs');
 
 //Listed
-
 
 
 //static file
@@ -37,107 +38,11 @@ app.use(express.urlencoded({ extended: true }));
 // });
 
 //app.use(morgan('tiny'));
+//routing
 
-
-//Mongoess and sandbox route
-
-app.get('/app-blog', (req, res) => {
-    const blog = new Blog({
-        title: 'new Blog',
-        description: 'Test'
-    });
-
-    blog.save().then((result) => {
-        res.send(result)
-    }).catch((err) => {
-        console.log(err)
-    });
-});
-
-app.get('/all-blog', (req, res) => {
-    Blog.find().then((result) => {
-        res.send(result)
-    }).catch((err) => {
-        console.log(err);
-    });
-});
-app.get('/single-blog', (req, res) => {
-    Blog.findById('61a3d67d08c5371ee35a75e5').then((result) => {
-        res.send(result)
-    }).catch((err) => {
-        console.log(err);
-    });
-});
-
-
-//Routing
-app.get('/', (req, res) => {
-    //res.send('<p>Home Page</p>');
-    //res.sendFile('./views/index.html', { root: __dirname });
-    res.redirect('/blog');
-    const blogs = [
-        { title: 'Team Bangladesh lost againts Pakistan', body: '1st t20 lost against pakistan' },
-        { title: 'Team Pakistant lost againts Bangladesh', body: '2md t20 lost against pakistan' },
-    ];
-    res.render('home', { title: 'Home', blogs });
-});
-app.get('/about', (req, res) => {
-    //res.send('<p>Home Page</p>');
-    // res.sendFile('./views/about.html', { root: __dirname });
-    res.render('about-us');
-});
-app.get('/blog/create', (req, res) => {
-    //res.send('<p>Home Page</p>');
-    // res.sendFile('./views/about.html', { root: __dirname });
-    res.render('create');
-});
-
-//N ew routing 
-
-app.get('/blog', (req, res) => {
-    const blogs = [];
-    Blog.find().sort({ createdAt: -1 }).then((result) => {
-        res.render('home', { title: 'Home', blogs: result });
-    }).catch((err) => {
-        console.log(err);
-    });
-
-});
-
-app.post('/blog', (req, res) => {
-    // console.log(req.body);
-
-    const blog = new Blog(req.body);
-
-    blog.save().then((result) => {
-        res.redirect('/blog');
-    }).catch((err) => {
-        console.log(err);
-    });
-});
-app.get('/blogs/:id', (req, res) => {
-    const id = req.params.id;
-    Blog.findById(id).then((result) => {
-        res.render('details', { blog: result, title: 'Blog Details' });
-    }).catch((err) => {
-        console.log(err);
-    });
-});
-app.delete('/blogs/:id', (req, res) => {
-    const id = req.params.id;
-    Blog.findByIdAndDelete(id).then((result) => {
-       res.json({redirect : '/blog'});
-    }).catch((err) => {
-        console.log(err);
-    });
-});
-
-//Redirecct
-app.get('/about-me', (req, res) => {
-    //res.send('<p>Home Page</p>');
-    res.redirect('/about');
-});
-
+app.use(blogRoute);
+//if need prefix
+//app.use('blogs',blogRoute);
 //404 Page
 app.use((req, res) => {
     res.status(404).render('404');
