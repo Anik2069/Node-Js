@@ -1,0 +1,19 @@
+Docer Have 2 main concepts
+
+Images (Recipe of a application)
+    LightWeight
+    Standalone
+    Excutable tool
+
+
+Container (Full application)
+Runable instance
+
+
+Volumns - -- storage
+
+
+Docker Workflow
+Docker Client - user interface
+Docker Host -- Baackground process
+Docker Registry
